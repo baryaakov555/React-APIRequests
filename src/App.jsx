@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import axios from "axios";
 import "./style.css";
 import SearchField from "./SearchField";
+import GifCard from "./GifCard";
 //import { flushSync } from "react-dom";
 //import { WatchIgnorePlugin } from "webpack";
 
@@ -12,24 +13,31 @@ const App = () => {
 
 const [gifs, setGifs] = useState([]);
 const [input, setInput] = useState("");
-const [rating, setRating] = useState("g");
+const [rating, setRating] = useState("");
 
 useEffect(() => {
   fetchTrendingGifs();
 }, []);
 
 const fetchTrendingGifs = async () => {
-  const trendingGifs = (await axios.get(`https://api.giphy.com/v1/gifs/trending?api_key=${GIPHY_API_KEY}`)).data.data;
+  let url = `https://api.giphy.com/v1/gifs/trending?api_key=${GIPHY_API_KEY}`
+  const trendingGifs = (await axios.get(url)).data.data;
 
 setGifs(trendingGifs);
 }
 
 const searchGifs = async () => {
-  const searchGifByName = (await axios.get(`http://api.giphy.com/v1/gifs/search?q=${input}&api_key=${GIPHY_API_KEY}`)).data.data;
+  let url = `http://api.giphy.com/v1/gifs/search?q=${input}&api_key=${GIPHY_API_KEY}`
+  if (rating != "")
+  {
+    url+= `&rating=${rating}`
+  }
   
+  const searchGifByName = (await axios.get(url)).data.data;
 
   setGifs(searchGifByName);
 }
+
 
 
 
@@ -48,24 +56,16 @@ const searchGifs = async () => {
 
       <h1 className="title">GIF WORLD!</h1>
 
-      <SearchField searchGifs = {searchGifs} submitInput = {setInput}/>
-
+      <SearchField searchGifs = {searchGifs} submitInput = {setInput} rating = {setRating}/>
+      
 
       <div className="gif-list">
 
         {gifs.map((gif) => (
-
-        <img
-        key={gif.id}
-        src={gif.images.fixed_height.url}
-        className="gif-card-img"
-        />
-
+          <GifCard key={gif.id} gif={gif} />
         ))}
 
       </div>
-      
-        
       
     </div>
   );
