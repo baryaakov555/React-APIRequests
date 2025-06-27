@@ -38,25 +38,26 @@ const searchGifs = async () => {
   setGifs(searchGifByName);
 }
 
+const sortGIFsByName = () => {
+  const sortedGIFs = [...gifs].sort((a,b) => a.title.localeCompare(b.title));
 
+  setGifs(sortedGIFs)
+}
 
+const randomGIF = async () => {
+  let url = `http://api.giphy.com/v1/gifs/random?api_key=${GIPHY_API_KEY}`
 
+  const getRandomGIF = (await axios.get(url)).data.data;
 
-
-
-
-
-
-
-
-
+  setGifs([getRandomGIF]);
+  }
 
   return (
     <div className="app">
 
       <h1 className="title">GIF WORLD!</h1>
 
-      <SearchField searchGifs = {searchGifs} submitInput = {setInput} rating = {setRating}/>
+      <SearchField searchGifs = {searchGifs} submitInput = {setInput} setRating = {setRating} sortGIFs = {sortGIFsByName} randomGIF = {randomGIF}/>
       
 
       <div className="gif-list">
