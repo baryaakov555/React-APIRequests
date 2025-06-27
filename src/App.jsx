@@ -12,24 +12,21 @@ const App = () => {
 
 const [gifs, setGifs] = useState([]);
 const [input, setInput] = useState("");
+const [rating, setRating] = useState("g");
 
 useEffect(() => {
   fetchTrendingGifs();
 }, []);
 
 const fetchTrendingGifs = async () => {
-const trendingGifs = (await axios.get(`https://api.giphy.com/v1/gifs/trending?api_key=${GIPHY_API_KEY}`)).data.data;
+  const trendingGifs = (await axios.get(`https://api.giphy.com/v1/gifs/trending?api_key=${GIPHY_API_KEY}`)).data.data;
 
 setGifs(trendingGifs);
 }
 
-const searchInput = () => {
-
-
-}
-
 const searchGifs = async () => {
   const searchGifByName = (await axios.get(`http://api.giphy.com/v1/gifs/search?q=${input}&api_key=${GIPHY_API_KEY}`)).data.data;
+  
 
   setGifs(searchGifByName);
 }
@@ -51,7 +48,8 @@ const searchGifs = async () => {
 
       <h1 className="title">GIF WORLD!</h1>
 
-      <SearchField searchGifs = {searchGifs}/>
+      <SearchField searchGifs = {searchGifs} submitInput = {setInput}/>
+
 
       <div className="gif-list">
 
