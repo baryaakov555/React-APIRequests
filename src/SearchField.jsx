@@ -1,13 +1,13 @@
 import React from "react";
 import "./SearchField.css";
 
-const SearchField = () => {
+const SearchField = ({searchGifs}) => {
   return (
     <div className="search-box">
       <input 
       placeholder="Enter GIF Name"
-      type="password"/>
-      <button></button>
+      />
+      <button onClick={searchGifs}>Search</button>
     </div>
   );
 };

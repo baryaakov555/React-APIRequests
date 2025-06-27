@@ -33,6 +33,14 @@ body {
   margin: 1rem;
 }
 
-.gif-card img {
-  width: 100%;
+.gif-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.gif-card-img {
+  width: 200px;
+  border-radius: 8px
 }
